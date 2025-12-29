@@ -10,6 +10,12 @@ Bu projede, kullanıcıların geçmiş dinleme verileri kullanılarak, son dinle
 Proje konusu; gerçek dünya uygulamalarına doğrudan karşılık gelmesi, veri bilimi ve derin öğrenme yöntemlerinin uygulanmasına uygun olması ve kullanıcı davranışlarını modelleme açısından öğretici nitelik taşıması nedeniyle tercih edilmiştir.
 Daha Önce Yapılan Çalışmalar
 
+Daha Önce Yapılan Çalışmalar
+
+Literatürde müzik öneri sistemleri için farklı yaklaşımlar geliştirilmiştir. Geleneksel yöntemlerde kullanıcı–öğe etkileşimlerine dayalı işbirlikçi filtreleme (collaborative filtering), içerik tabanlı öneri sistemleri ve kullanıcı–öğe matrisleri yaygın olarak kullanılmaktadır.
+
+Son yıllarda, kullanıcı davranışlarının zaman içindeki sıralı yapısını dikkate alan makine öğrenmesi ve derin öğrenme tabanlı yaklaşımlar ön plana çıkmıştır. Kullanıcının son dinlediği içeriklerden yola çıkarak bir sonraki olası tercihin tahmin edilmesi, modern öneri sistemlerinde sıkça kullanılan etkili bir yöntemdir. Bu bağlamda, LSTM gibi sıralı veri modelleri, öneri sistemlerinde kullanıcı davranışlarını anlamak ve tahmin etmek için akademik ve endüstriyel olarak tercih edilmektedir.
+
 Literatürde müzik öneri sistemleri için farklı yaklaşımlar geliştirilmiştir:
 
 Geleneksel Yöntemler: Kullanıcı-öğe etkileşimlerine dayalı işbirlikçi filtreleme (collaborative filtering), içerik tabanlı öneri sistemleri ve kullanıcı-öğe matrisleri.
@@ -18,62 +24,93 @@ Makine Öğrenmesi Tabanlı Yaklaşımlar: Lojistik regresyon, karar ağaçları
 
 Derin Öğrenme Tabanlı Yaklaşımlar: Kullanıcının geçmiş dinleme sıralarını dikkate alan RNN ve LSTM tabanlı modeller. Bu modeller, uzun vadeli bağımlılıkları öğrenerek kullanıcının sonraki tercihlerine dair daha isabetli tahminler yapabilir.
 
+
 İlgili Alanın Önemi
 
-Müzik öneri sistemleri:
+Müzik öneri sistemleri;
 
-Kullanıcı deneyimini iyileştirir,
+Kullanıcı deneyimini iyileştirme,
 
-Platformda geçirilen süreyi artırır,
+Platformda geçirilen süreyi artırma,
 
-Kişiselleştirilmiş içerik sunar.
+Kişiselleştirilmiş içerik sunma
 
-Derin öğrenme tabanlı modeller, kural tabanlı ve klasik makine öğrenmesi yöntemlerine kıyasla:
+gibi açılardan dijital müzik platformları için kritik bir rol oynamaktadır.
 
-Uzun sıralı bağımlılıkları öğrenebilir,
-
-Kullanıcı davranışlarını daha doğru modelleyebilir,
-
-Veri miktarı arttıkça performansını koruyabilir.
-
-Bu nedenle geliştirilen sistemler, modern dijital içerik servislerinin temel bileşenlerinden biri hâline gelmiştir.
+LSTM tabanlı derin öğrenme modelleri, geleneksel kural tabanlı veya temel makine öğrenmesi yöntemlerine kıyasla daha esnek ve ölçeklenebilir çözümler sunar. Kullanıcıların zaman içinde değişen tercihlerini modelleyebilmesi, gerçek kullanıcı davranışlarını daha iyi yansıtan öneriler üretmesini sağlar.
 
 Veri Setinin Belirlenmesi
 
-Bu projede, kullanıcıların dinleme alışkanlıklarını içeren açık kaynaklı bir müzik veri seti kullanılmıştır. Veri seti, kullanıcıların geçmiş dinleme davranışlarını yansıtan etiketli verilerden oluşmakta ve aşağıdaki dosyaları içermektedir:
+Bu projede, kullanıcıların dinleme alışkanlıklarını içeren açık kaynaklı bir müzik veri seti kullanılmıştır. Veri seti, kullanıcıların geçmiş dinleme davranışlarını yansıtan etiketli verilerden oluşmakta olup aşağıdaki dosyaları içerir:
 
-users.csv: Kullanıcı bilgileri (user_id: benzersiz kullanıcı kimliği, opsiyonel ek bilgiler: yaş, ülke vb.)
+users.csv – Kullanıcı bilgileri
 
-user_top_artists.csv: Kullanıcıların en çok dinlediği sanatçılar (user_id, artist_name, playcount)
+user_id: Her kullanıcı için benzersiz kimlik
 
-user_top_albums.csv: Kullanıcıların en çok dinlediği albümler (user_id, album_name, playcount)
+Ek bilgiler (opsiyonel, ör. yaş, ülke vb.)
 
-Veri Hazırlığı ve Kullanım:
+user_top_artists.csv – Kullanıcıların en çok dinlediği sanatçılar
 
-Tüm veriler, kullanıcı bazında playcount değerine göre sıralanmıştır.
+user_id: Kullanıcı kimliği
 
-Kullanıcının son üç tercihi girdi olarak alınmış ve bir sonraki olası tercihi tahmin edecek şekilde LSTM için sequence verisi oluşturulmuştur.
+artist_name: Sanatçının adı
 
-Eğitim süresini yönetebilmek amacıyla başlangıçta veri seti sınırlı bir örneklemle (ör. 10.000 satır) kullanılmıştır.
+playcount: Kullanıcının bu sanatçıyı dinleme sayısı
+
+user_top_albums.csv – Kullanıcıların en çok dinlediği albümler
+
+user_id: Kullanıcı kimliği
+
+album_name: Albümün adı
+
+playcount: Kullanıcının bu albümü dinleme sayısı
+
+Veriler, kullanıcı bazında playcount değerine göre sıralanmıştır, böylece en çok dinlenen içerikler öne çıkarılmıştır. Proje geliştirme sürecinde eğitim süresini kısaltmak amacıyla veri setinin sınırlı bir örneklemi (örneğin 5.000 satır) kullanılmıştır. Sistemin final aşamasında, daha büyük veri setleri ile yeniden eğitilmesi mümkündür.
+
+Bu hazırlık, modelin kullanıcıların son 3 tercihini girdi olarak alıp bir sonraki olası tercihi tahmin etmesine olanak sağlamaktadır.
 https://www.kaggle.com/datasets/gabrielkahen/music-listening-data-500k-users/suggestions
 
 Uygulanacak Yöntem / Algoritma / Yaklaşımın Seçim Gerekçesi
 
-Bu projede öneri problemi, sequence-based çok sınıflı sınıflandırma problemi olarak ele alınmıştır. Amaç, kullanıcının son üç sanatçı veya albümüne bakarak bir sonraki olası tercihi tahmin etmektir.
+Bu projede öneri problemi, sequence-based (sıralı) çok sınıflı sınıflandırma olarak ele alınmıştır. Kullanıcının son dinlediği üç sanatçı veya albüm, modelin girdi verisi olarak kullanılmıştır ve çıktısı bir sonraki olası tercihtir.
 
-Seçilen yöntem: LSTM (Long Short-Term Memory) tabanlı derin öğrenme modeli
+LSTM (Long Short-Term Memory), sıralı veri üzerindeki bağımlılıkları öğrenebilen bir RNN türevidir. Bu modelin tercih edilme gerekçeleri:
 
-Seçim Gerekçeleri:
+Uzun süreli kullanıcı davranışlarını yakalayabilme
 
-Kullanıcı davranışlarındaki sıralı bağımlılıkları öğrenme yeteneği
+Sıralı veri üzerinde etkili tahmin
 
-Uzun vadeli bağımlılıkları modelleyebilme kapasitesi
+Overfitting’e karşı görece dayanıklı yapı
 
-Geniş veri setlerinde iyi performans ve genelleme yeteneği
+Eğitim ve çıkarım süresinin makul olması
 
-Akademik projeler için anlaşılabilir ve yeniden kullanılabilir model mimarisi
+Modelin mimarisi aşağıdaki gibi yapılandırılmıştır:
+
+Embedding katmanı: Kullanıcıların sanatçı/album ID’lerini yoğun vektör temsiline dönüştürür.
+
+LSTM katmanı (64 unit): Zaman içindeki bağımlılıkları öğrenir.
+
+Dense + Softmax: Çok sınıflı tahmin sağlar.
 
 Model Eğitimi
+
+Veri ön işleme aşamasında kullanıcıların dinleme geçmişleri sıralı şekilde hazırlanmıştır. Her bir kullanıcı için son 3 sanatçı ve albüm bilgisi, modelin girdi verisi (X) olarak belirlenmiş, çıktılar (y) bir sonraki olası tercih olacak şekilde düzenlenmiştir.
+
+Eğitim ve test veri setleri %80 / %20 oranında ayrılmıştır. Bu sayede model, daha önce görmediği kullanıcı davranışlarına karşı tahmin yeteneği kazanmıştır.
+
+Hiperparametreler ve eğitim ayarları:
+
+Epoch: 5 (küçük veri seti için hızlı eğitim)
+
+Batch size: 32
+
+Validation split: 0.1 (erken overfitting kontrolü)
+
+Loss: Categorical Crossentropy
+
+Optimizer: Adam
+
+Sanatçı ve albüm önerileri için iki ayrı LSTM modeli oluşturulmuş ve her biri bağımsız olarak eğitilmiştir. Model çıktıları .h5 formatında kaydedilmiş ve encoderlar .pkl olarak saklanmıştır.
 
 Veri Ön İşleme ve Sequence Oluşturma:
 
@@ -113,7 +150,17 @@ Embedding boyutu: 50
 
 Model Değerlendirilmesi
 
-Test veri seti üzerinde doğruluk (accuracy) ve top-5 öneri doğruluğu ile performans değerlendirilmiştir.
+Model performansı Top-1 ve Top-5 doğruluk (accuracy) metrikleri ile ölçülmüştür. Elde edilen değerler, veri setinin yüksek sınıf sayısı ve sıralı yapısı göz önüne alındığında makul seviyededir.
+
+Ek analizler için:
+
+Top-N doğruluk: Tahmin edilen ilk 5 öneriden kaçının doğru olduğu
+
+Sınıf bazlı performans: Hangi sanatçı/album türlerinin daha zor tahmin edildiği
+
+Yanlış pozitif/negatif analizi
+
+Bu değerlendirmeler, modelin gerçek kullanıcı senaryolarında güvenilirliğini anlamak için önemlidir.
 
 LSTM modeli, veri setindeki yüksek sınıf sayısı ve sıralı yapıyı öğrenerek makul seviyede doğruluk elde etmiştir.
 
@@ -123,12 +170,10 @@ Ek olarak, top-N öneriler ve yanlış pozitif/negatif oranları üzerinden sist
 
 Genel Değerlendirme
 
-Geliştirilen LSTM tabanlı müzik öneri sistemi, kullanıcıların geçmiş dinleme davranışlarına dayalı anlamlı ve tutarlı öneriler sunabilmektedir.
+Geliştirilen LSTM tabanlı müzik öneri sistemi, kullanıcıların geçmiş dinleme davranışlarına dayalı anlamlı ve tutarlı öneriler sunabilmektedir. Kullanıcının son üç tercihi temel alınarak yapılan tahminler, sistemin kişiselleştirilmiş öneriler üretme kapasitesini göstermektedir.
 
-Son üç tercihe dayalı tahminler, sistemin kişiselleştirilmiş öneri üretme kapasitesini göstermektedir.
+Sanatçı ve albüm önerilerinin ayrı modellerle ele alınması, sistemin esnekliğini artırmakta ve farklı veri kaynaklarından bağımsız öneri üretilebilmesine olanak sağlamaktadır. Bu yapı, gelecekte model geliştirme veya veri seti değişikliklerinde adaptasyonu kolaylaştırmaktadır.
 
-Sanatçı ve albüm önerilerinin ayrı modellerle ele alınması, sistemin esnekliğini artırmakta ve farklı veri kaynaklarından bağımsız olarak öneri üretilebilmesini sağlamaktadır.
+Sistemin performansı, veri boyutu ve model kapasitesi ile doğrudan ilişkilidir. Veri setinin genişletilmesi, daha fazla kullanıcı davranışının modele dahil edilmesini sağlayarak öneri kalitesini artırabilir. Ayrıca, daha derin LSTM katmanları veya attention mekanizmaları eklenerek modelin sıralı tahmin performansı iyileştirilebilir.
 
-Veri setinin genişletilmesi ve daha derin LSTM/RNN katmanlarının kullanılmasıyla, özellikle top-N öneri doğruluğu ve uzun vadeli kullanıcı davranış tahminleri geliştirilebilir.
-
-Bu proje, derin öğrenme temelli öneri sistemlerinin temel prensiplerini başarılı bir şekilde yansıtarak, akademik ve pratik açıdan uygulanabilir bir örnek sunmaktadır.
+Bu proje, LSTM temelli öneri sistemlerinin temel çalışma prensiplerini başarılı bir şekilde yansıtmaktadır ve akademik/uygulamalı açıdan değerlendirildiğinde, gerçek dünya dijital müzik platformlarında kullanıcı deneyimini iyileştirmek için sağlam bir altyapı sunmaktadır.
