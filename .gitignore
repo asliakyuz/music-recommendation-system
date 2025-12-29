@@ -1,12 +1,14 @@
-
+# Dataset
 data/
 
+# Models
+*.pkl
+models/
 
-models/*.pkl
+# Gradio cache
+.gradio/
 
-
+# Python
 __pycache__/
 *.pyc
-
-
 .env
