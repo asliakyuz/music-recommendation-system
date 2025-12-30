@@ -74,7 +74,7 @@ Uygulanacak Yöntem / Algoritma / Yaklaşımın Seçim Gerekçesi
 
 Bu projede öneri problemi, sequence-based (sıralı) çok sınıflı sınıflandırma olarak ele alınmıştır. Kullanıcının son dinlediği üç sanatçı veya albüm, modelin girdi verisi olarak kullanılmıştır ve çıktısı bir sonraki olası tercihtir.
 
-LSTM (Long Short-Term Memory), sıralı veri üzerindeki bağımlılıkları öğrenebilen bir RNN türevidir. Bu modelin tercih edilme gerekçeleri:
+LSTM (Long Short-Term Memory), sıralı veri üzerindeki bağımlılıkları öğrenebilen bir RNN türevidir. Bu modelin tercih edilmesinin gerekçeleri:
 
 Uzun süreli kullanıcı davranışlarını yakalayabilme
 
